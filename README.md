@@ -1,11 +1,12 @@
 # ⚡ AutoFill Brasil — Extensão Chrome
 
 
-<div style="background-color: #4C3DCD; display: flex; aligth-itens=center; justify-content=center; flex-direction= column;" >
+<div style="background-color: #4C3DCD; display: flex; aligth-itens=center; justify-content=center; flex-direction= column; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);" >
     <img width="500px" height="500px" alt="image" src="https://github.com/user-attachments/assets/86256313-3450-4451-b27d-77abcbbbec87" />
     <img width="500px" height="500px" alt="image" src="https://github.com/user-attachments/assets/fc0687ec-5289-4750-add7-af9b92afd02c" />
     <img width="500px" height="500px" alt="image" src="https://github.com/user-attachments/assets/e1e377e6-dff6-49e5-89c9-06f948888361" />
 </div>
+
 
 <div align="center">
 
