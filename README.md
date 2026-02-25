@@ -1,5 +1,14 @@
 # ⚡ AutoFill Brasil — Extensão Chrome
 
+<div style="background-color: #4C3DCD">
+    <img width="500px" height="500px" alt="image" src="https://github.com/user-attachments/assets/86256313-3450-4451-b27d-77abcbbbec87" />
+    <img width="500px" height="500px" alt="image" src="https://github.com/user-attachments/assets/fc0687ec-5289-4750-add7-af9b92afd02c" />
+    <img width="500px" height="500px" alt="image" src="https://github.com/user-attachments/assets/e1e377e6-dff6-49e5-89c9-06f948888361" />
+</div>
+
+
+
+
 Extensão Google Chrome para preenchimento automático de formulários com seus dados pessoais brasileiros (CPF, RG, e-mail, endereço e muito mais).
 
 ---
