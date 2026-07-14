@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<<<<<<< HEAD
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -356,4 +357,194 @@
 
 <script src="popup.js"></script>
 </body>
+=======
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoFill Brasil</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="header-icon"><img src="img/logo-autofill.png" alt="" width="40px" style="border-radius: 15px;"></div>
+    <div class="header-text">
+      <h1>AutoFill Brasil</h1>
+      <p>Preenchimento automático inteligente</p>
+    </div>
+  </div>
+
+  <!-- ── BARRA DE PERFIS ─────────────────────────────────────────────────── -->
+  <div class="profile-bar">
+    <div id="profileChips" class="profile-chips"></div>
+    <div class="profile-actions">
+      <button id="addProfileBtn" class="icon-btn" title="Novo Perfil">+</button>
+      <button id="deleteProfileBtn" class="icon-btn danger" title="Excluir Perfil">−</button>
+      <button id="searchProfileBtn" class="icon-btn" title="Pesquisar Perfil">></button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab" data-tab="fill">⚡ Preencher</div>
+    <div class="tab active" data-tab="dados">👤 Meus Dados</div>
+    <div class="tab" data-tab="about">ℹ️ Info</div>
+  </div>
+
+  <!-- ── TAB: FILL ──────────────────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-fill">
+    <div class="status-bar">
+      <div class="status-dot waiting" id="statusDot"></div>
+      <span id="statusText">Verificando página...</span>
+    </div>
+
+    <button class="fill-btn" id="fillBtn">
+      <span>⚡</span> Preencher Formulário Agora
+    </button>
+
+    <div class="section-title">Perfil ativo</div>
+    <div id="profilePreview" style="font-size:12px; color: var(--muted); line-height:1.8;"></div>
+  </div>
+
+  <!-- ── TAB: DADOS ─────────────────────────────────────────────────────── -->
+  <div class="tab-content active" id="tab-dados">
+
+    <div class="section-title">Documentos</div>
+    <div class="form-group"><label>CPF</label><input id="f_cpf" placeholder="000.000.000-00" /></div>
+    <div class="row2">
+      <div class="form-group"><label>RG</label><input id="f_rg" placeholder="00.000.000-0" /></div>
+      <div class="form-group"><label>CNH</label><input id="f_cnh" placeholder="00000000000" /></div>
+    </div>
+
+    <div class="section-title">Contato</div>
+    <div class="form-group"><label>E-mail</label><input id="f_email" type="email" placeholder="voce@email.com" /></div>
+    <div class="row2">
+      <div class="form-group"><label>Telefone</label><input id="f_phone" placeholder="(11) 99999-9999" /></div>
+      <div class="form-group"><label>Celular</label><input id="f_cel" placeholder="(11) 99999-9999" /></div>
+    </div>
+
+    <div class="section-title">Dados Pessoais</div>
+    <div class="row2">
+      <div class="form-group"><label>Nome</label><input id="f_nome" placeholder="Seu nome" /></div>
+      <div class="form-group"><label>Sobrenome</label><input id="f_sobrenome" placeholder="Sobrenome" /></div>
+    </div>
+    <div class="row2">
+      <div class="form-group"><label>Data Nasc.</label><input id="f_nascimento" placeholder="DD/MM/AAAA" /></div>
+      <div class="form-group"><label>Gênero</label><input id="f_genero" placeholder="Masculino" /></div>
+    </div>
+    <div class="form-group"><label>Nome da Mãe</label><input id="f_mae" placeholder="Nome completo da mãe" /></div>
+
+    <div class="section-title">Endereço</div>
+    <div class="row2">
+      <div class="form-group"><label>CEP</label><input id="f_cep" placeholder="00000-000" /></div>
+      <div class="form-group"><label>Número</label><input id="f_numero" placeholder="123" /></div>
+    </div>
+    <div class="form-group"><label>Logradouro</label><input id="f_logradouro" placeholder="Rua, Avenida..." /></div>
+    <div class="form-group"><label>Complemento</label><input id="f_complemento" placeholder="Apto, Bloco..." /></div>
+    <div class="row2">
+      <div class="form-group"><label>Bairro</label><input id="f_bairro" placeholder="Bairro" /></div>
+      <div class="form-group"><label>Cidade</label><input id="f_cidade" placeholder="Cidade" /></div>
+    </div>
+    <div class="row2">
+      <div class="form-group"><label>Estado (UF)</label><input id="f_estado" placeholder="SP" /></div>
+      <div class="form-group"><label>País</label><input id="f_pais" placeholder="Brasil" /></div>
+    </div>
+
+    <div class="section-title">Financeiro</div>
+    <div class="form-group"><label>PIS / PASEP</label><input id="f_pis" placeholder="000.00000.00-0" /></div>
+
+    <div class="section-title">Trabalho</div>
+    <div class="form-group"><label>Cargo</label><input id="f_cargo" placeholder="Ex: Analista de Sistemas" /></div>
+    <div class="form-group"><label>Empresa</label><input id="f_empresa" placeholder="Nome da empresa" /></div>
+
+    <div class="section-title">Outros</div>
+    <div class="form-group"><label>Observações</label><input id="f_obs" placeholder="Informações adicionais" /></div>
+
+    <div class="section-title">Redes Sociais</div>
+    <div class="row2">
+      <div class="form-group"><label>LinkedIn</label><input id="f_linkedin"
+          placeholder="https://linkedin.com/in/usuario" /></div>
+      <div class="form-group"><label>GitHub</label><input id="f_github" placeholder="https://github.com/usuario" />
+      </div>
+      <div class="form-group"><label>Instagram</label><input id="f_instagram" placeholder="@usuario" /></div>
+      <div class="form-group"><label>Twitter / X</label><input id="f_twitter" placeholder="@usuario" /></div>
+      <div class="form-group"><label>Facebook</label><input id="f_facebook"
+          placeholder="https://facebook.com/usuario" /></div>
+      <div class="form-group"><label>Site / Portfólio</label><input id="f_website" placeholder="https://meusite.com" />
+      </div>
+      <div class="form-group"><label>YouTube</label><input id="f_youtube" placeholder="https://youtube.com/@usuario" />
+      </div>
+      <div class="form-group"><label>TikTok</label><input id="f_tiktok" placeholder="@usuario" /></div>
+    </div>
+
+    <div class="section-title">Educação</div>
+    <div class="form-group"><label>Escolaridade</label><input id="f_escolaridade"
+        placeholder="Ex: Ensino Superior Completo" /></div>
+    <div class="form-group"><label>Curso</label><input id="f_curso" placeholder="Ex: Engenharia de Software" /></div>
+    <div class="form-group"><label>Instituição</label><input id="f_instituicao"
+        placeholder="Nome da faculdade ou escola" /></div>
+
+    <div class="section-title">Experiência</div>
+    <div class="form-group"><label>Resumo Profissional</label><input id="f_resumo"
+        placeholder="Breve descrição da sua carreira" /></div>
+    <div class="row2">
+      <div class="form-group"><label>Início</label><input id="f_exp_inicio" placeholder="MM/AAAA" /></div>
+      <div class="form-group"><label>Fim</label><input id="f_exp_fim" placeholder="MM/AAAA ou Atual" /></div>
+    </div>
+
+    <button class="save-btn" id="saveBtn">💾 Salvar Dados</button>
+    <button class="save-btn danger-btn" id="clearBtn" style="display:none; margin-top:8px;">🗑️ Limpar Dados do
+      Perfil</button>
+  </div>
+
+  <!-- ── TAB: ABOUT ─────────────────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-about">
+    <div class="about-card">
+      <h3>Como funciona?</h3>
+      <p>A extensão detecta automaticamente campos de formulário na página e preenche com seus dados salvos. Clique em
+        "Preencher Formulário Agora" em qualquer site.</p>
+    </div>
+    <div class="about-card">
+      <h3>👤 Múltiplos Perfis</h3>
+      <p>Use a barra de perfis no topo para criar e alternar entre diferentes conjuntos de dados.
+        <strong>Duplo-clique</strong> em um perfil para renomeá-lo.</p>
+    </div>
+    <div class="about-card">
+      <h3>Campos suportados</h3>
+      <div class="field-chips">
+        <span class="chip">CPF</span><span class="chip">RG</span><span class="chip">CNH</span>
+        <span class="chip">E-mail</span><span class="chip">Telefone</span><span class="chip">Celular</span>
+        <span class="chip">Nome</span><span class="chip">Sobrenome</span><span class="chip">Nascimento</span>
+        <span class="chip">CEP</span><span class="chip">Endereço</span><span class="chip">Bairro</span>
+        <span class="chip">Cidade</span><span class="chip">Estado</span><span class="chip">PIS</span>
+        <span class="chip">Mãe</span><span class="chip">Gênero</span><span class="chip">LinkedIn</span>
+        <span class="chip">GitHub</span><span class="chip">Instagram</span><span class="chip">Twitter</span>
+        <span class="chip">Facebook</span><span class="chip">Site</span><span class="chip">YouTube</span>
+        <span class="chip">TikTok</span><span class="chip">Escolaridade</span><span class="chip">Curso</span>
+        <span class="chip">Instituição</span><span class="chip">Cargo</span><span class="chip">Empresa</span>
+        <span class="chip">Resumo</span>
+      </div>
+    </div>
+    <div class="about-card">
+      <h3>🔒 Privacidade</h3>
+      <p>Todos os seus dados ficam armazenados localmente no seu navegador. Nenhuma informação é enviada para servidores
+        externos.</p>
+    </div>
+    <div class="about-card">
+      <h3>⚙️ Backup e Restauração</h3>
+      <p>O backup exporta <strong>todos os perfis</strong>. A importação suporta tanto o novo formato (multi-perfil)
+        quanto backups antigos (perfil único).</p>
+      <button class="save-btn" id="exportBtn" style="margin-bottom: 8px;">📤 Exportar Dados (JSON)</button>
+      <button class="save-btn" id="importBtn">📥 Importar Dados</button>
+      <input type="file" id="importFile" accept=".json" style="display: none;">
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="popup.js"></script>
+</body>
+
+>>>>>>> 9f821f4 (Adicionei uma novas funcionalidades e correções)
 </html>

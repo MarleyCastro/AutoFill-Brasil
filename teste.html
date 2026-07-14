@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro de Fornecedor — Teste AutoFill Brasil</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --paper: #fafaf7;
+            --ink: #1a1a2e;
+            --ink2: #3d3d5c;
+            --rule: #c8c8d8;
+            --rule2: #e2e2ec;
+            --accent: #1a1a8c;
+            --accent2: #2929c4;
+            --fill-bg: #f0f0f8;
+            --filled: #e8e8ff;
+            --stamp: #d63031;
+            --sans: 'IBM Plex Sans', sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+        }
+
+        html {
+            background: #d4d4e0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--paper);
+            color: var(--ink);
+            max-width: 860px;
+            margin: 0 auto;
+            box-shadow: 0 4px 60px rgba(0, 0, 0, .18), 0 1px 0 rgba(255, 255, 255, .8) inset;
+            position: relative;
+        }
+
+        /* ── WATERMARK ── */
+        body::after {
+            content: 'AUTOFILL';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-family: var(--mono);
+            font-size: 120px;
+            font-weight: 600;
+            color: rgba(26, 26, 140, .04);
+            pointer-events: none;
+            z-index: 0;
+            letter-spacing: .2em;
+            white-space: nowrap;
+        }
+
+        /* ── LETTERHEAD ── */
+        .letterhead {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            padding: 32px 40px 24px;
+            border-bottom: 3px solid var(--accent);
+            position: relative;
+            z-index: 1;
+        }
+
+        .company-name {
+            font-family: var(--mono);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .company-detail {
+            font-size: 11px;
+            color: var(--ink2);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .logo-box {
+            width: 140px;
+            height: 72px;
+            border: 2px dashed var(--rule);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--rule);
+            font-family: var(--mono);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        /* ── DOC TITLE ── */
+        .doc-title {
+            text-align: center;
+            padding: 28px 40px 20px;
+            border-bottom: 1px solid var(--rule);
+            position: relative;
+            z-index: 1;
+        }
+
+        .doc-title h1 {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--ink2);
+        }
+
+        .doc-title .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            font-size: 9px;
+            font-family: var(--mono);
+            letter-spacing: .15em;
+            padding: 2px 10px;
+            border-radius: 2px;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        /* ── MAIN FORM ── */
+        .form-body {
+            padding: 0 40px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── SECTION HEADING ── */
+        .sec-head {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--ink2);
+            padding: 18px 0 8px;
+            border-bottom: 1px solid var(--rule);
+            margin-bottom: 0;
+        }
+
+        /* ── FORM TABLE ── */
+        .ftable {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--rule);
+            margin-bottom: 20px;
+        }
+
+        .ftable td {
+            border: 1px solid var(--rule);
+            padding: 0;
+            vertical-align: top;
+        }
+
+        .ftable .cell-label {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--ink2);
+            padding: 5px 8px 2px;
+            background: var(--fill-bg);
+            border-bottom: 1px solid var(--rule2);
+            display: block;
+        }
+
+        .ftable .cell-sub {
+            font-family: var(--sans);
+            font-size: 9px;
+            font-weight: 300;
+            color: var(--rule);
+            display: inline;
+            margin-left: 4px;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .ftable input[type=text],
+        .ftable input[type=email],
+        .ftable input[type=tel],
+        .ftable select,
+        .ftable textarea {
+            display: block;
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--ink);
+            padding: 6px 8px 7px;
+            min-height: 32px;
+            transition: background .2s;
+        }
+
+        .ftable input:focus,
+        .ftable select:focus,
+        .ftable textarea:focus {
+            background: var(--filled);
+        }
+
+        .ftable input:not(:placeholder-shown) {
+            color: var(--accent2);
+            font-weight: 500;
+        }
+
+        .ftable select option {
+            font-family: var(--sans);
+        }
+
+        /* ── CHECKBOX CELLS ── */
+        .check-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border: 1px solid var(--rule);
+            margin-bottom: 20px;
+        }
+
+        .check-row {
+            display: grid;
+            grid-template-columns: 28px 1fr;
+            align-items: center;
+            border-right: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            padding: 8px 10px 8px 8px;
+            gap: 8px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .check-row:hover {
+            background: var(--fill-bg);
+        }
+
+        .check-row:nth-child(3n) {
+            border-right: none;
+        }
+
+        .check-row:nth-last-child(-n+3) {
+            border-bottom: none;
+        }
+
+        .check-row input[type=checkbox] {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--accent);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .check-row label {
+            font-size: 11px;
+            color: var(--ink2);
+            font-family: var(--sans);
+            font-weight: 400;
+            cursor: pointer;
+            line-height: 1.3;
+        }
+
+        /* ── YESNO BLOCK ── */
+        .yn-block {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            padding: 10px 12px;
+        }
+
+        .yn-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .yn-option input {
+            accent-color: var(--accent);
+            width: 14px;
+            height: 14px;
+        }
+
+        .yn-option label {
+            font-size: 11px;
+            font-family: var(--mono);
+            color: var(--ink2);
+            cursor: pointer;
+        }
+
+        /* ── SIGNATURE ROW ── */
+        .sig-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--rule);
+            margin-bottom: 20px;
+        }
+
+        .sig-table td {
+            border: 1px solid var(--rule);
+            padding: 0;
+            vertical-align: top;
+        }
+
+        .sig-table .sig-line {
+            min-height: 52px;
+            padding: 6px 8px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--ink2);
+        }
+
+        .sig-table .sig-label {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            background: var(--fill-bg);
+            color: var(--ink2);
+            padding: 4px 8px;
+            border-bottom: 1px solid var(--rule2);
+            display: block;
+        }
+
+        /* ── INTERNAL USE ── */
+        .internal {
+            display: grid;
+            grid-template-columns: auto 1fr 1fr 1fr;
+            border: 1px solid var(--rule);
+            margin-bottom: 20px;
+        }
+
+        .int-cell {
+            border-right: 1px solid var(--rule);
+            padding: 0;
+            vertical-align: top;
+        }
+
+        .int-cell:last-child {
+            border-right: none;
+        }
+
+        .int-label {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #fff;
+            background: var(--accent);
+            padding: 5px 8px;
+            display: block;
+        }
+
+        .int-cell .cell-label {
+            background: var(--fill-bg);
+        }
+
+        .int-use {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            color: #fff;
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: 0 12px;
+            line-height: 1.3;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        /* ── TOAST / STATUS ── */
+        .status-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--accent);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 40px;
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: .05em;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fff;
+            opacity: .4;
+            flex-shrink: 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: .4
+            }
+
+            50% {
+                opacity: 1
+            }
+        }
+
+        .status-dot.ready {
+            background: #00e5cc;
+            opacity: 1;
+            animation: none;
+        }
+
+        .status-text {
+            flex: 1;
+        }
+
+        .fill-hint {
+            font-size: 10px;
+            opacity: .7;
+            font-style: italic;
+        }
+
+        /* ── PRINT STYLES ── */
+        @media print {
+            html {
+                background: #fff;
+                padding: 0;
+            }
+
+            body {
+                box-shadow: none;
+            }
+
+            .status-bar {
+                display: none;
+            }
+
+            body::after {
+                display: none;
+            }
+        }
+
+        /* ── FIELD HIGHLIGHT ON FILL ── */
+        @keyframes flashFill {
+            0% {
+                background: #c8f7f0
+            }
+
+            100% {
+                background: var(--filled)
+            }
+        }
+
+        .just-filled {
+            animation: flashFill .6s ease;
+        }
+
+        @media(max-width:600px) {
+            .letterhead {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .form-body {
+                padding: 0 16px 32px;
+            }
+
+            .status-bar {
+                padding: 10px 16px;
+            }
+
+            .check-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .check-row:nth-child(2n) {
+                border-right: none;
+            }
+
+            .check-row:nth-child(3n) {
+                border-right: 1px solid var(--rule);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- DOC TITLE -->
+    <div class="doc-title">
+        <h1>Formulário para Cadastro de Fornecedor</h1>
+        <div class="badge">🧪 Teste — AutoFill Brasil</div>
+    </div>
+
+    <div class="form-body">
+
+        <!-- ══ INFORMAÇÕES DO FORNECEDOR ══ -->
+        <div class="sec-head">Informações do Fornecedor</div>
+
+        <table class="ftable">
+            <tr>
+                <td style="width:65%">
+                    <span class="cell-label">Nome da Empresa <span class="cell-sub">conforme mostrado na Declaração de
+                            Impostos Federal</span></span>
+                    <input type="text" name="empresa" id="empresa" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Código do Fornecedor <span class="cell-sub">se aplicável</span></span>
+                    <input type="text" name="codigo_fornecedor" id="codigo_fornecedor" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="cell-label">Nome Fantasia <span class="cell-sub">se aplicável</span></span>
+                    <input type="text" name="nome_fantasia" id="nome_fantasia" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Número de Identificação Fiscal <span class="cell-sub">FEIN ou SSN /
+                            CPF</span></span>
+                    <input type="text" name="cpf" id="cpf" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="cell-label">Nome do Contato</span>
+                    <input type="text" name="nome" id="nome" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Cargo</span>
+                    <input type="text" name="cargo" id="cargo" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="cell-label">Endereço do Fornecedor</span>
+                    <input type="text" name="endereco" id="endereco" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="cell-label">Endereço para Pagamento <span class="cell-sub">se for diferente do endereço
+                            acima</span></span>
+                    <input type="text" name="endereco_pagamento" id="endereco_pagamento" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:22%">
+                    <span class="cell-label">Telefone</span>
+                    <input type="tel" name="telefone" id="telefone" placeholder=" " />
+                </td>
+                <td style="width:20%">
+                    <span class="cell-label">Fax</span>
+                    <input type="tel" name="fax" id="fax" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">E-mail do Fornecedor</span>
+                    <input type="email" name="email" id="email" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:22%">
+                    <span class="cell-label">Tem Isenção Fiscal? <span class="cell-sub">S ou N</span></span>
+                    <div class="yn-block">
+                        <div class="yn-option"><input type="radio" name="isencao" id="isencao_s" value="S" /><label
+                                for="isencao_s">SIM</label></div>
+                        <div class="yn-option"><input type="radio" name="isencao" id="isencao_n" value="N" /><label
+                                for="isencao_n">NÃO</label></div>
+                    </div>
+                </td>
+                <td colspan="2">
+                    <span class="cell-label">Site do Fornecedor</span>
+                    <input type="text" name="website" id="website" placeholder=" " />
+                </td>
+            </tr>
+        </table>
+
+        <!-- ══ DADOS PESSOAIS EXTRAS ══ -->
+        <div class="sec-head">Dados Pessoais do Responsável</div>
+
+        <table class="ftable">
+            <tr>
+                <td>
+                    <span class="cell-label">Nome</span>
+                    <input type="text" name="first-name" id="first-name" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Sobrenome</span>
+                    <input type="text" name="last-name" id="last-name" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="cell-label">RG</span>
+                    <input type="text" name="rg" id="rg" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">CNH</span>
+                    <input type="text" name="cnh" id="cnh" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="cell-label">Data de Nascimento</span>
+                    <input type="text" name="nascimento" id="nascimento" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Gênero</span>
+                    <input type="text" name="genero" id="genero" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span class="cell-label">Nome da Mãe</span>
+                    <input type="text" name="mae" id="mae" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="cell-label">Celular / WhatsApp</span>
+                    <input type="tel" name="celular" id="celular" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">PIS / PASEP</span>
+                    <input type="text" name="pis" id="pis" placeholder=" " />
+                </td>
+            </tr>
+        </table>
+
+        <!-- ══ ENDEREÇO DETALHADO ══ -->
+        <div class="sec-head">Endereço Detalhado</div>
+
+        <table class="ftable">
+            <tr>
+                <td style="width:160px">
+                    <span class="cell-label">CEP</span>
+                    <input type="text" name="cep" id="cep" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Logradouro</span>
+                    <input type="text" name="logradouro" id="logradouro" placeholder=" " />
+                </td>
+                <td style="width:100px">
+                    <span class="cell-label">Número</span>
+                    <input type="text" name="numero" id="numero" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="cell-label">Complemento</span>
+                    <input type="text" name="complemento" id="complemento" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Bairro</span>
+                    <input type="text" name="bairro" id="bairro" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Cidade</span>
+                    <input type="text" name="cidade" id="cidade" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="cell-label">Estado (UF)</span>
+                    <input type="text" name="estado" id="estado" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">País</span>
+                    <input type="text" name="pais" id="pais" placeholder=" " />
+                </td>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- ══ TIPO DE ORGANIZAÇÃO ══ -->
+        <div class="sec-head">Tipo de Organização</div>
+
+        <div class="check-grid">
+            <div class="check-row"><input type="checkbox" id="org1" /><label for="org1">Corporação</label></div>
+            <div class="check-row"><input type="checkbox" id="org2" /><label for="org2">Empresário individual</label>
+            </div>
+            <div class="check-row"><input type="checkbox" id="org3" /><label for="org3">Joint Venture</label></div>
+            <div class="check-row"><input type="checkbox" id="org4" /><label for="org4">LLC</label></div>
+            <div class="check-row"><input type="checkbox" id="org5" /><label for="org5">Sociedade / Sociedade
+                    limitada</label></div>
+            <div class="check-row"><input type="checkbox" id="org6" /><label for="org6">Organização sem fins
+                    lucrativos</label></div>
+        </div>
+
+        <!-- ══ PAGAMENTO ══ -->
+        <div class="sec-head">Informações de Pagamento</div>
+
+        <table class="ftable" style="margin-bottom:8px">
+            <tr>
+                <td style="width:160px">
+                    <span class="cell-label">Cheques separados?</span>
+                    <div class="yn-block">
+                        <div class="yn-option"><input type="radio" name="cheques" id="cheq_s" value="S" /><label
+                                for="cheq_s">SIM</label></div>
+                        <div class="yn-option"><input type="radio" name="cheques" id="cheq_n" value="N" /><label
+                                for="cheq_n">NÃO</label></div>
+                    </div>
+                </td>
+                <td style="width:220px">
+                    <span class="cell-label">Aceita cartão? <span class="cell-sub">Visa, MC etc.</span></span>
+                    <div class="yn-block">
+                        <div class="yn-option"><input type="radio" name="cartao" id="cart_s" value="S" /><label
+                                for="cart_s">SIM</label></div>
+                        <div class="yn-option"><input type="radio" name="cartao" id="cart_n" value="N" /><label
+                                for="cart_n">NÃO</label></div>
+                    </div>
+                </td>
+                <td>
+                    <span class="cell-label">Nº da Conta</span>
+                    <input type="text" name="conta" id="conta" placeholder=" " />
+                    <span class="cell-label" style="margin-top:2px">Nº de Direcionamento</span>
+                    <input type="text" name="agencia" id="agencia" placeholder=" " />
+                </td>
+            </tr>
+        </table>
+
+        <!-- ══ REDES SOCIAIS ══ -->
+        <div class="sec-head">Redes Sociais &amp; Online</div>
+
+        <table class="ftable">
+            <tr>
+                <td>
+                    <span class="cell-label">LinkedIn</span>
+                    <input type="text" name="linkedin" id="linkedin" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">GitHub</span>
+                    <input type="text" name="github" id="github" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="cell-label">Instagram</span>
+                    <input type="text" name="instagram" id="instagram" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Twitter / X</span>
+                    <input type="text" name="twitter" id="twitter" placeholder=" " />
+                </td>
+            </tr>
+        </table>
+
+        <!-- ══ EDUCAÇÃO / EXPERIÊNCIA ══ -->
+        <div class="sec-head">Educação &amp; Experiência</div>
+
+        <table class="ftable">
+            <tr>
+                <td>
+                    <span class="cell-label">Escolaridade</span>
+                    <input type="text" name="escolaridade" id="escolaridade" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Curso</span>
+                    <input type="text" name="curso" id="curso" placeholder=" " />
+                </td>
+                <td>
+                    <span class="cell-label">Instituição</span>
+                    <input type="text" name="instituicao" id="instituicao" placeholder=" " />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <span class="cell-label">Resumo Profissional / Bio</span>
+                    <textarea name="resumo" id="resumo" style="min-height:54px;padding:8px;" placeholder=" "></textarea>
+                </td>
+            </tr>
+        </table>
+
+        <!-- ══ ASSINATURA ══ -->
+        <div class="sec-head">Assinatura</div>
+
+        <table class="sig-table">
+            <tr>
+                <td style="width:40%">
+                    <span class="sig-label">Nome do Solicitante / Fornecedor</span>
+                    <input type="text" name="nome_solicitante" id="nome_solicitante" placeholder=" "
+                        style="font-family:var(--mono);font-size:12px;border:none;outline:none;width:100%;padding:8px;min-height:48px;background:transparent;" />
+                </td>
+                <td style="width:30%">
+                    <span class="sig-label">Assinatura</span>
+                    <div class="sig-line"
+                        style="font-style:italic;color:var(--rule);font-size:10px;display:flex;align-items:flex-end;">
+                        _______________________</div>
+                </td>
+                <td>
+                    <span class="sig-label">Data da Solicitação / Envio</span>
+                    <input type="text" name="data_solicitacao" id="data_solicitacao" placeholder="DD/MM/AAAA"
+                        style="font-family:var(--mono);font-size:12px;border:none;outline:none;width:100%;padding:8px;min-height:48px;background:transparent;" />
+                </td>
+            </tr>
+        </table>
+
+        <!-- ══ USO INTERNO ══ -->
+        <div class="sec-head">Uso Interno</div>
+
+        <div class="internal">
+            <div class="int-use">Apenas<br>para uso<br>interno</div>
+            <div class="int-cell" style="border-right:1px solid var(--rule)">
+                <span class="cell-label"
+                    style="background:var(--fill-bg);color:var(--ink2);font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;display:block;">Código
+                    do Fornecedor</span>
+                <input type="text" name="cod_interno" id="cod_interno" placeholder=" "
+                    style="font-family:var(--mono);font-size:12px;border:none;outline:none;width:100%;padding:6px 8px 8px;background:transparent;" />
+            </div>
+            <div class="int-cell" style="border-right:1px solid var(--rule)">
+                <span class="cell-label"
+                    style="background:var(--fill-bg);color:var(--ink2);font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;display:block;">Data
+                    de Recebimento</span>
+                <input type="text" name="data_recebimento" id="data_recebimento" placeholder="DD/MM/AAAA"
+                    style="font-family:var(--mono);font-size:12px;border:none;outline:none;width:100%;padding:6px 8px 8px;background:transparent;" />
+            </div>
+            <div class="int-cell">
+                <span class="cell-label"
+                    style="background:var(--fill-bg);color:var(--ink2);font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;display:block;">Data
+                    de Processamento do Pagamento</span>
+                <input type="text" name="data_pagamento" id="data_pagamento" placeholder="DD/MM/AAAA"
+                    style="font-family:var(--mono);font-size:12px;border:none;outline:none;width:100%;padding:6px 8px 8px;background:transparent;" />
+            </div>
+        </div>
+
+    </div><!-- /form-body -->
+
+    <script>
+        // ── Monitorar campos preenchidos ───────────────────────────────────────────
+        const allInputs = document.querySelectorAll('input[type=text], input[type=email], input[type=tel], textarea, select');
+
+        function checkFilled() {
+            const filled = [...allInputs].filter(el => el.value && el.value.trim()).length;
+            const total = allInputs.length;
+            const dot = document.getElementById('statusDot');
+            const txt = document.getElementById('statusText');
+            if (filled === 0) {
+                dot.className = 'status-dot';
+                txt.textContent = 'Aguardando AutoFill Brasil... (' + total + ' campos disponíveis)';
+            } else {
+                dot.className = 'status-dot ready';
+                txt.textContent = '✅ ' + filled + ' de ' + total + ' campos preenchidos — extensão funcionando!';
+            }
+        }
+
+        allInputs.forEach(el => el.addEventListener('input', checkFilled));
+        allInputs.forEach(el => el.addEventListener('change', checkFilled));
+
+        // Detectar quando a extensão preenche via dispatchEvent
+        const observer = new MutationObserver(checkFilled);
+        allInputs.forEach(el => {
+            observer.observe(el, { attributes: true, attributeFilter: ['value'] });
+        });
+
+        // Flash ao ser preenchido pela extensão
+        allInputs.forEach(el => {
+            el.addEventListener('input', function () {
+                this.classList.remove('just-filled');
+                void this.offsetWidth; // reflow
+                this.classList.add('just-filled');
+            });
+        });
+
+        checkFilled();
+    </script>
+</body>
+
+</html>

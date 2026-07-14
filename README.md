@@ -7,7 +7,10 @@
     <img width="500px" height="500px" alt="image" src="https://github.com/user-attachments/assets/e1e377e6-dff6-49e5-89c9-06f948888361" />
 </div>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9f821f4 (Adicionei uma novas funcionalidades e correções)
 <div align="center">
 
 # ⚡ AutoFill Brasil
@@ -215,4 +218,8 @@ Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) par
 ### ⭐ Se este projeto te ajudou, considere dar uma estrela!
 **Desenvolvido com ❤️ por [Marley Castro](https://github.com/MarleyCastro)**
 
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> 9f821f4 (Adicionei uma novas funcionalidades e correções)
